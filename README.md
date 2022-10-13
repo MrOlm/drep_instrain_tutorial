@@ -42,10 +42,21 @@ $ cd raw_genomes
 $ wget https://ndownloader.figshare.com/files/8849371 -O genomes.tar.gz
 
 $ tar -xf genomes.tar.gz
+
+$ cd ~
 ```
 
 The download should take about 10 minutes, and decompressing the genomes should take about 1 minute
 
+Finally, lets download the quality information for these genomes using the following command:
+
+```
+$ wget https://github.com/MrOlm/drep_instrain_tutorial/raw/main/downloads/Table3_GenomeStats.csv
+```
+
+This file (https://github.com/MrOlm/drep_instrain_tutorial/blob/main/downloads/Table3_GenomeStats.csv) was made from Table3, here: https://figshare.com/articles/dataset/The_Reconstruction_of_2_631_Draft_Metagenome-Assembled_Genomes_from_the_Global_Oceans/5188273/13?file=10217256
+
+It just contains the completeness and contamination information for each genome that we downloaded
 ## Step 3) Download metagenomic reads
 
 We will be mapping our dereplicated genomes against two ocean metagenomes. A beautiful list of ftp links to ocean metagenomes is provided here: https://merenlab.org/data/tara-oceans-mags/files/samples.txt as part of this tutorial: https://merenlab.org/data/tara-oceans-mags
@@ -55,8 +66,6 @@ For this tutorial, lets download reads from samples `MED_18_05M` and `MED_18_60M
 Download the reads into a new folder using the following commands:
 
 ```
-$ cd ~
-
 $ mkdir reads
 
 $ cd reads
