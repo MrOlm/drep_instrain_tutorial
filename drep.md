@@ -183,12 +183,107 @@ $ dRep dereplicate ocean_drep_output -g raw_genomes/*.fna -p 6 --genomeInfo Tabl
 
 Once you run this command you should see lots of output from dRep updating you as it runs.
 
-In total this dereplication should take about 30 minutes
+In total this dereplication should take about 30 minutes. When it's finished you should see something like:
+
+```
+    ..:: dRep dereplicate finished ::..
+
+Dereplicated genomes................. /home/ubuntu/ocean_drep_output/dereplicated_genomes/
+Dereplicated genomes information..... /home/ubuntu/ocean_drep_output/data_tables/Widb.csv
+Figures.............................. /home/ubuntu/ocean_drep_output/figures/
+Warnings............................. /home/ubuntu/ocean_drep_output/log/warnings.txt
+```
 
 ## Step 4) Inspect output
 
-Check out the output files
+dRep produces a number of output files, as described here: https://drep.readthedocs.io/en/latest/example_output.html
+
+Poke around! See what's what! You can download the figures yourself using a command like:
+
+```
+$ scp -r ubuntu@193.49.167.68:ocean_drep_output/figures ./
+```
+
+Or if that's not working, you can see the results here:
+
+https://github.com/MrOlm/drep_instrain_tutorial/tree/main/example_results/ocean_drep_output
 
 ## Step 5) Create genome database
 
-Rename genomes, concat files, make .stb, make bowtie2 index
+Now that our dereplication is complete, it's time to prepare the dereplicate genome set for mapping reads. This process takes several steps:
+
+### Step 5.1) Rename scaffolds
+
+Rename the scaffolds in the dereplicated genome files to account for scaffolds in different genomes that have the same name. 
+
+```
+$ cd ~
+
+$ mkdir renamed_genomes
+
+$ cd ocean_drep_output/dereplicated_genomes/
+
+$ for f in $(ls *.fna); do cat $f | sed  "s|>|>$f\_|g" > ~/renamed_genomes/$f; done
+```
+This should take about 10 seconds
+
+### Step 5.2) Create a scaffold to bin file
+
+A scaffold to bin for (or `.stb` file) is just a text file that lists which scaffold belongs to which bin. We can create one using the program `parse_stb.py` that comes packaged along with `dRep`. To see how to use it, run:
+
+```
+$ parse_stb.py -h
+
+usage:
+
+The program has two uses related to scaffold to bin (.stb) files.
+.stb files should be tab-separated, with no header, and two columns: scaffold and bin
+
+Use 1) Pass a list of genomes to generate a .stb file.
+
+Example:
+parse_stb.py --reverse -f dereplicate_genomes/* -o representitve_genomes.stb
+
+Use 2) Pass a single .fasta file and a scaffold to bin file (.stb) to generate a number of
+fasta files based on the .stb file.
+
+Example:
+parse_stb.py -f concat_genomes.fasta -s scaffold_to_bin.tsv -o genomeList_1
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s STB, --stb STB     scaffold to bin file (default: None)
+  -f [FASTA [FASTA ...]], --fasta [FASTA [FASTA ...]]
+                        fasta file to extract scaffolds from. Will treat as compressed if ends in .gz. This can also be a single text file with a genome on each line (default: None)
+  -o OUTPUT, --output OUTPUT
+                        output base name (default: )
+  --reverse             generate a stb from a list of genomes (default: False)
+```
+
+For this tutorial create one using the commands:
+
+```
+$ cd ~
+
+$ parse_stb.py --reverse -f renamed_genomes/* -o OGdb.stb
+```
+
+This will create the file `OGdb.stb` (which stands for Ocean Genome Database)
+
+### Step 5.3) Concatenate all dereplicated genomes into a single file 
+
+Now that we have the `.stb` file to sort out which scaffold comes from which genome, lets concatenate all the genomes into a single file
+
+```
+$ cat renamed_genomes/* > OGdb.fasta
+```
+
+### Step 5.4) Create a bowtie2 index
+
+Finally, to prepare these genomes for mapping, let's create a bowtie2 index for the .fasta file
+
+```
+$ bowtie2-build OGdb.fasta OGdb.fasta.bt2 --large-index --threads 8
+```
+
+This should take about an hour

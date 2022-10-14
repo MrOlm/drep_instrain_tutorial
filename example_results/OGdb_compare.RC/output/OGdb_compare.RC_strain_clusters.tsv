@@ -1,0 +1,15 @@
+cluster	sample	genome
+1_1	ERR599092.OGdb.sorted.bam	TOBG_MED-1001.fna
+1_1	ERR599140.OGdb.sorted.bam	TOBG_MED-1001.fna
+2_1	ERR599092.OGdb.sorted.bam	TOBG_MED-630.fna
+2_1	ERR599140.OGdb.sorted.bam	TOBG_MED-630.fna
+3_1	ERR599092.OGdb.sorted.bam	TOBG_MED-713.fna
+3_1	ERR599140.OGdb.sorted.bam	TOBG_MED-713.fna
+4_1	ERR599092.OGdb.sorted.bam	TOBG_MED-731.fna
+4_1	ERR599140.OGdb.sorted.bam	TOBG_MED-731.fna
+5_1	ERR599092.OGdb.sorted.bam	TOBG_MED-746.fna
+5_1	ERR599140.OGdb.sorted.bam	TOBG_MED-746.fna
+6_1	ERR599092.OGdb.sorted.bam	TOBG_MED-828.fna
+6_1	ERR599140.OGdb.sorted.bam	TOBG_MED-828.fna
+7_1	ERR599092.OGdb.sorted.bam	TOBG_NAT-154.fna
+7_1	ERR599140.OGdb.sorted.bam	TOBG_NAT-154.fna
