@@ -6,6 +6,8 @@ See [drep.md](drep.md) for the dRep tutorial
 
 See [instrain.md](instrain.md) for the inStrain tutorial
 
+In case the steps below fail, intermediate files can be found here - https://zenodo.org/record/7200082#.Y0oAAi2B1qs
+
 # Setup
 
 The following instructions can be used to download all needed programs and files. If you are following this tutorial as part of EBAME7, I recommend that you use the `Ubuntu 22.04 (22.04)` Appliance with the `ifb.m4.2xlarge` machine.
