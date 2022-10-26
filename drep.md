@@ -1,5 +1,5 @@
 # dRep Tutorial
-In this tutorial we are going to dereplicate the set of ocean genomes downloaded during the [setup](README.md) steps.
+In this tutorial we are going to dereplicate the set of ocean genomes downloaded during the [setup](installation.md) steps.
 
 Check the dRep readthedocs for more information: https://drep.readthedocs.io/en/latest/
 
@@ -175,11 +175,25 @@ Check the dRep documentation (https://drep.readthedocs.io/en/latest/) for more i
 
 ## Step 3) Run dRep
 
+First download the genome information, if you haven't already
+
+```
+$ wget https://github.com/MrOlm/drep_instrain_tutorial/raw/main/downloads/Table3_GenomeStats.csv
+```
+
 Run dRep using a command like the following. Feel free to adjust the parameters if you'd like to be fancy
+
+#### Command if using the EBAME7 genomes:
+```
+$ dRep dereplicate ocean_drep_output -g /ifb/data/public/teachdata/ebame-2022/drep_instrain/TOBG-GENOMES/*.fna -p 8 --genomeInfo Table3_GenomeStats.csv
+```
+
+#### Command if you downloaded the genomes yourself:
 
 ```
 $ dRep dereplicate ocean_drep_output -g raw_genomes/*.fna -p 6 --genomeInfo Table3_GenomeStats.csv
 ```
+
 
 Once you run this command you should see lots of output from dRep updating you as it runs.
 

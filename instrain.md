@@ -11,7 +11,9 @@ InStrain takes .bam files as input, which are files representing metagenomic rea
 ```
 $ cd ~
 
-$ samp_list="ERR599092 ERR599140"; time for f in ${samp_list}; do bowtie2 -x OGdb.fasta.bt2 -1 reads/$f\_1.fastq.gz -2 reads/$f\_2.fastq.gz --no-unal -S $f.OGdb.sam -p 6; done
+$ bowtie2 -x OGdb.fasta.bt2 -1 /ifb/data/public/teachdata/ebame-2022/drep_instrain/ERR599092_1.fastq.gz -2 /ifb/data/public/teachdata/ebame-2022/drep_instrain/ERR599092_2.fastq.gz --no-unal -S ERR599092.OGdb.sam -p 8
+
+$ bowtie2 -x OGdb.fasta.bt2 -1 /ifb/data/public/teachdata/ebame-2022/drep_instrain/ERR599140_1.fastq.gz -2 /ifb/data/public/teachdata/ebame-2022/drep_instrain/ERR599140_2.fastq.gz --no-unal -S ERR599140.OGdb.sam -p 8
 ```
 
 This should take about 90 minutes or so. You should also see an output like the following:
@@ -143,8 +145,14 @@ OTHER  OPTIONS:
 
 ## Step 3) Run inStrain profile
 
+Unzip the temporary genome file, if you didn't make it yourself
 ```
-$ samp_list="ERR599092 ERR599140"; for f in ${samp_list}; do inStrain profile $f\.OGdb.sam OGdb.fasta --database_mode -o $f\_OGdb.IS -s OGdb.stb; done
+$ zcat /ifb/data/public/teachdata/ebame-2022/drep_instrain/intermediate_files/OGdb.fasta.gz > OGdb.fasta
+```
+
+Run inStrain
+```
+$ inStrain profile /ifb/data/public/teachdata/ebame-2022/drep_instrain/intermediate_files/ERR599140.OGdb.sorted.bam OGdb.fasta --database_mode -s /ifb/data/public/teachdata/ebame-2022/drep_instrain/intermediate_files/OGdb.stb -p 8 -o ERR599140.IS --skip_plot_generation
 ```
 
 You should see a series of things happen, including:
@@ -152,7 +160,6 @@ You should see a series of things happen, including:
 * The .sam file being converted into a sorted .bam file
 * inStrain profile will be run
 * Lots and lots and lots of warnings will be spilled
-* Lots and lots of plotting junk will be printed to the screen
 
 At the end should see:
 
@@ -170,14 +177,14 @@ See documentation for output descriptions - https://instrain.readthedocs.io/en/l
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 ```
 
-This process could take as long as 3 hours, depending on whether you use `--skip_plots` or not
+This process could take as long as 3 hours, depending on whether you use `--skip_plot_generation` or not
 
 ## Step 4) Check out the results
 
 ## Step 5) Run inStrain compare
 
 ```
-$ time inStrain compare -i *OGdb.IS -s OGdb.stb --database_mode -p 6 -o OGdb_compare.RC
+$ inStrain compare -i *OGdb.IS -s OGdb.stb --database_mode -p 6 -o OGdb_compare.RC
 ```
 
 This should only take a couple of minutes to run
