@@ -181,10 +181,20 @@ This process could take as long as 3 hours, depending on whether you use `--skip
 
 ## Step 4) Check out the results
 
+You can see the results online here as well:
+
+https://github.com/MrOlm/drep_instrain_tutorial/tree/main/example_results/ERR599092_OGdb.IS
+
+https://github.com/MrOlm/drep_instrain_tutorial/tree/main/example_results/ERR599140_OGdb.IS
+
 ## Step 5) Run inStrain compare
 
 ```
 $ inStrain compare -i *OGdb.IS -s OGdb.stb --database_mode -p 6 -o OGdb_compare.RC
 ```
 
-This should only take a couple of minutes to run
+This should only take a couple of minutes to run.
+
+You can see the results here:
+
+https://github.com/MrOlm/drep_instrain_tutorial/tree/main/example_results/OGdb_compare.RC
